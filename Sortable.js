@@ -4,6 +4,9 @@
  * @license MIT
  */
 
+
+// IIFE that takes in the sortableFactory function
+// Figures out what kind of options for calling the sortableFactory function are available, then calls it?
 (function sortableModule(factory) {
 	"use strict";
 
@@ -74,6 +77,7 @@
 		captureMode = false,
 		passiveMode = false,
 
+		// Do elements have a draggable attribute
 		supportDraggable = ('draggable' in document.createElement('div')),
 		supportCssPointerEvents = (function (el) {
 			// false when IE11
@@ -345,7 +349,7 @@
 
 
 			// Don't trigger start event when an element is been dragged, otherwise the evt.oldindex always wrong when set option.group.
-			if (dragEl) {
+			if (dragEl) {  // Initialized at beginning. Set to an element when dragging?
 				return;
 			}
 
@@ -354,7 +358,7 @@
 			}
 
 			// cancel dnd if original target is content editable
-			if (originalTarget.isContentEditable) {
+			if (originalTarget.isContentEditable) { // HTMLElement.isContentEditable is a boolean property that indicates whether an element's contents are editable
 				return;
 			}
 
@@ -374,8 +378,8 @@
 
 			// Check filter
 			if (typeof filter === 'function') {
-				if (filter.call(this, evt, target, this)) {
-					_dispatchEvent(_this, originalTarget, 'filter', target, el, el, startIndex);
+				if (filter.call(this, evt, target, this)) { // If calling filter with this event and this target is true, we're going to return w/o doing anything
+					_dispatchEvent(_this, originalTarget, 'filter', target, el, el, startIndex); // dispatches a filter event (custom event) on originalTarget element?
 					preventOnFilter && evt.preventDefault();
 					return; // cancel dnd
 				}
